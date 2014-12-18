@@ -14,8 +14,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- FullCalendar CSS -->
-    <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css"/>
+   
     <!-- Custom CSS -->
     <link href="css/bugi.css" rel="stylesheet">
 
@@ -25,10 +25,22 @@
 </head>
 
 <body>
-    <div id='calendar'></div>
+    <section id="menu">
+        <div id="payment-type">
+            <h4>Choices</h4>
+            <div class='payment-event bill'>Recurring Bill</div>
+            <div class='payment-event credit'>Credit Card</div>
+            <div class='payment-event income'>Income</div>
+        </div>
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+        <div id='calendar'></div>
+
+        <div style='clear:both'></div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.custom.min.js"></script>
 
     <!-- Bootstrap JavaScript -->
     <script src="js/bootstrap.min.js"></script>
