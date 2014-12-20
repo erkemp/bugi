@@ -25,6 +25,11 @@
         selectable: true,
         selectHelper: true,
         droppable: true,
-        eventLimit: true
+        eventLimit: true,
+        eventClick: function (event, element) {
+            var title = prompt("Payment Description:");
+            event.title = title;
+            $('#calendar').fullCalendar('updateEvent', event);
+        }
     });
 });
