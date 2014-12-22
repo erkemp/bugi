@@ -8,14 +8,17 @@
     <meta name="description" content="personal finance budget website">
     <meta name="author" content="Morgan McCollum">
 
-    <title>Bügi</title>
+    <title>Bügi: Budget Calendar</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- FullCalendar CSS -->
     <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css"/>
-   
+
+    <!-- Impromptu CSS -->
+    <link href="css/jquery-impromptu.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="css/bugi.css" rel="stylesheet">
 
@@ -28,6 +31,7 @@
 <section id="menu">
     <div id="payment-type">
         <h4>Choices</h4>
+        <div class='payment-event expense'>One-Time Expense</div>
         <div class='payment-event bill'>Recurring Bill</div>
         <div class='payment-event credit'>Credit Card</div>
         <div class='payment-event income'>Income</div>
@@ -61,6 +65,9 @@
 
         <!-- FullCalendar JavaScript-->
         <script type="text/javascript" src="js/fullcalendar.min.js"></script>
+
+        <!-- Custom JavaScript -->
+        <script src="js/jquery-impromptu.js"></script>
 
         <!-- Custom JavaScript -->
         <script src="js/bugi.js"></script>
