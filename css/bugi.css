@@ -95,11 +95,3 @@ font-weight: normal;
     font-size: 15px;
     margin-bottom: 10px;
 }
-
-#f.paymentName {
-    float: left;
-}
-
-#f.paymentAmount {
-    float: right;
-}
