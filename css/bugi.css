@@ -75,6 +75,13 @@
     background-color: #bc8f8f;
 }
 
+.gainHide {
+    display: none;
+}
+
+.lossHide {
+    display: none;
+}
 .payment-event,
 .payment-event:hover,
 .ui-widget .payment-event {
