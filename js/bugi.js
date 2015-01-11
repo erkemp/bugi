@@ -10,10 +10,9 @@
 };
 
 $(document).ready(function () {
-    var lossArray = [0];
-    var gainArray = [0];
+    var lossArray = [0], gainArray = [0], saveArray = [0];
 
-    $("#payment-type .payment-event").each(function () {
+    $("#paymentBox .paymentEvent").each(function () {
         $(this).data("event", {
             title: $.trim($(this).text()),
             stick: true,
@@ -31,20 +30,33 @@ $(document).ready(function () {
     $("#calendar").fullCalendar({
         header: {
             left: "prev, next, title",
-            right: "today, month, agendaWeek, agendaDay"
+            right: "today"
         },
         selectable: true,
         selectHelper: true,
         droppable: true,
         eventLimit: true,
         eventClick: function(event, element) {
-            if ($(this).css("background-color") == "rgb(60, 179, 113)")
+            if ($(this).css("background-color") == "rgb(109, 206, 152)")
                 $(this).addClass("income");
+
+            else if ($(this).css("background-color") == "rgb(158, 155, 177)")
+                $(this).addClass("savings");
+
+            else if ($(this).css("background-color") == "rgb(32, 178, 170)")
+                $(this).addClass("bill");
 
             if ($(this).is(".income")) {
                 var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="gainAmount">Amount: </label><input type="number" name="gainAmount" id="paymentAmount" value="0" min="0" /></div>';
-            } else {
+            }
+
+            else if ($(this).is(".savings")) {
+                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                    '<div class="field"><label for="saveAmount">Amount: </label><input type="number" name="saveAmount" id="paymentAmount" value="0" min="0" /></div>';
+            }
+
+            else {
                 var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
@@ -63,7 +75,18 @@ $(document).ready(function () {
                             lossArray.push(f.lossAmount);
                             $.each(lossArray, function() { lossTotal -= parseFloat(this) || 0; });
                             $("#expensePanel").html("$" + (lossTotal.formatMoney(2)));
-                        } else {
+                        }
+
+                        else if (f.saveAmount) {
+                            $(".saveHide").show();
+                            var saveTotal = 0;
+                            event.title = f.paymentName + " " + "$" + f.saveAmount;
+                            saveArray.push(f.saveAmount);
+                            $.each(saveArray, function () { saveTotal += parseFloat(this) || 0; });
+                            $("#savingsPanel").html("$" + (saveTotal.formatMoney(2)));
+                        }
+
+                        else {
                             var gainTotal = 0;
                             event.title = f.paymentName + " " + "$" + f.gainAmount;
                             gainArray.push(f.gainAmount);
@@ -80,7 +103,8 @@ $(document).ready(function () {
                             $(".gainHide").show();
                             $("#gainPanel").html("$" + (gainlossTotal.formatMoney(2)));
                         }
-                        else {
+
+                        else if (gainlossTotal < 0) {
                             $(".gainHide").hide();
                             $(".lossHide").show();
                             $("#lossPanel").html("$" + (gainlossTotal.formatMoney(2)));

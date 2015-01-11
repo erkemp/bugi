@@ -7,7 +7,7 @@
 }
 
 #menu {
-    width: 1100px;
+    width: 1270px;
     margin: 0 auto;
 }
 
@@ -16,7 +16,7 @@
     margin-bottom: 5px;
 }
 
-#payment-type {
+#paymentBox {
     float: left;
     width: 150px;
     padding: 0 10px;
@@ -26,29 +26,18 @@
     text-transform: uppercase;
 }
 
-    #payment-type h4 {
+h4 {
         font-size: 16px;
         margin-top: 0;
         padding-top: 1em;
     }
 
-    #payment-type .payment-event {
+    #paymentBox .paymentEvent {
         margin: 10px 0;
         cursor: pointer;
     }
 
-    #payment-type p {
-        margin: 1.5em 0;
-        font-size: 11px;
-        color: #666;
-    }
-
-        #payment-type p input {
-            margin: 0;
-            vertical-align: middle;
-        }
-
-.payment-event {
+.paymentEvent {
     position: relative;
     display: block;
     font-size: .85em;
@@ -59,8 +48,19 @@
     font-weight: normal;
 }
 
+.paymentEvent,
+.paymentEvent:hover,
+.ui-widget .paymentEvent {
+    color: #fff;
+    text-decoration: none;
+}
+
+    .paymentEvent[href] {
+        cursor: pointer;
+    }
+
 .income {
-    background-color: #3cb371;
+    background-color: #6dce98;
 }
 
 .bill {
@@ -75,6 +75,10 @@
     background-color: #bc8f8f;
 }
 
+.savings {
+    background-color: #9e9bb1;
+}
+
 .gainHide {
     display: none;
 }
@@ -82,18 +86,13 @@
 .lossHide {
     display: none;
 }
-.payment-event,
-.payment-event:hover,
-.ui-widget .payment-event {
-    color: #fff;
-    text-decoration: none;
+
+.saveHide {
+    display: none;
 }
 
-    .payment-event[href] {
-        cursor: pointer;
-    }
-
 #calendar {
-    float: right;
+    float: left;
     width: 900px;
+    padding-left: 70px;
 }
