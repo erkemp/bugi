@@ -10,7 +10,7 @@
 };
 
 $(document).ready(function () {
-    var lossArray = [0], gainArray = [0], saveArray = [0];
+    var lossArray = [], gainArray = [], saveArray = [], billArray = [];
 
     $("#paymentBox .paymentEvent").each(function () {
         $(this).data("event", {
@@ -56,8 +56,13 @@ $(document).ready(function () {
                     '<div class="field"><label for="saveAmount">Amount: </label><input type="number" name="saveAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
-            else {
+            else if ($(this).is(".bill")) {
                 var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                    '<div class="field"><label for="billAmount">Amount: </label><input type="number" name="billAmount" id="paymentAmount" value="0" min="0" /></div>';
+            }
+
+            else {
+                 var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
@@ -84,6 +89,21 @@ $(document).ready(function () {
                             saveArray.push(f.saveAmount);
                             $.each(saveArray, function () { saveTotal += parseFloat(this) || 0; });
                             $("#savingsPanel").html("$" + (saveTotal.formatMoney(2)));
+                        }
+
+                        else if (f.billAmount) {
+                            var billTotal = 0;
+                            event.title = f.paymentName + " " + "$" + f.billAmount;
+                            f.billAmount *= -1;
+                            lossArray.push(f.billAmount);
+                            $.each(lossArray, function () { billTotal -= parseFloat(this) || 0; });
+                            $("#expensePanel").html("$" + (billTotal.formatMoney(2)));
+
+                            f.billAmount *= -1;
+                            billArray = billArray.concat(f.paymentName + " " + "$" + f.billAmount.formatMoney(2));
+                            $("#billPanel").html(billArray.map(function (value) {
+                                return (value +'</br>');
+                            }).join(""));
                         }
 
                         else {

@@ -1,9 +1,9 @@
 ﻿body {
-    margin-top: 40px;
     text-align: center;
     font-size: 14px;
     font-family: "Source Sans Pro", sans-serif;
     font-weight: 300;
+    margin-top: 40px;
 }
 
 #menu {
@@ -14,6 +14,8 @@
 .slide {
     margin-top: 10px;
     margin-bottom: 5px;
+    font-size: 13px;
+    letter-spacing: 1px;
 }
 
 #paymentBox {
@@ -26,16 +28,41 @@
     text-transform: uppercase;
 }
 
-h4 {
-        font-size: 16px;
-        margin-top: 0;
-        padding-top: 1em;
-    }
+#billBox {
+    float: right;
+    width: 150px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    background: #eee;
+    text-align: center;
+    text-transform: uppercase;
+}
 
-    #paymentBox .paymentEvent {
-        margin: 10px 0;
-        cursor: pointer;
-    }
+h1, h2 {
+    font-family: "Montserrat", sans-serif;
+}
+
+h1 {
+    font-weight: 700;
+    letter-spacing: 7px;
+}
+
+h4 {
+    font-size: 14px;
+    margin-top: 0;
+    padding-top: 1em;
+    letter-spacing: 2px;
+}
+
+h5 {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+#paymentBox .paymentEvent {
+    margin: 10px 0;
+    cursor: pointer;
+}
 
 .paymentEvent {
     position: relative;
@@ -55,9 +82,9 @@ h4 {
     text-decoration: none;
 }
 
-    .paymentEvent[href] {
-        cursor: pointer;
-    }
+.paymentEvent[href] {
+    cursor: pointer;
+}
 
 .income {
     background-color: #6dce98;
