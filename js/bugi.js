@@ -36,7 +36,7 @@ $(document).ready(function () {
         selectHelper: true,
         droppable: true,
         eventLimit: true,
-        eventClick: function(event, element) {
+        eventClick: function (event, element) {
             if ($(this).css("background-color") == "rgb(109, 206, 152)")
                 $(this).addClass("income");
 
@@ -62,8 +62,8 @@ $(document).ready(function () {
             }
 
             else {
-                 var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
-                    '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
+                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                   '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
             paymentState = {
@@ -71,24 +71,25 @@ $(document).ready(function () {
                     title: 'Enter payment information:',
                     html: paymentForm,
                     buttons: { Submit: 1 },
-                    submit: function(e, v, m, f) {
+                    submit: function (e, v, m, f) {
 
                         if (f.lossAmount) {
                             var lossTotal = 0;
                             event.title = f.paymentName + " " + "$" + f.lossAmount;
                             f.lossAmount *= -1;
                             lossArray.push(f.lossAmount);
-                            $.each(lossArray, function() { lossTotal -= parseFloat(this) || 0; });
+                            $.each(lossArray, function () { lossTotal -= parseFloat(this) || 0; });
                             $("#expensePanel").html("$" + (lossTotal.formatMoney(2)));
+                            $("#expenseHide").removeClass("hide");
                         }
 
                         else if (f.saveAmount) {
-                            $(".saveHide").show();
                             var saveTotal = 0;
                             event.title = f.paymentName + " " + "$" + f.saveAmount;
                             saveArray.push(f.saveAmount);
                             $.each(saveArray, function () { saveTotal += parseFloat(this) || 0; });
                             $("#savingsPanel").html("$" + (saveTotal.formatMoney(2)));
+                            $("#saveHide").removeClass("hide");
                         }
 
                         else if (f.billAmount) {
@@ -102,16 +103,22 @@ $(document).ready(function () {
                             f.billAmount *= -1;
                             billArray = billArray.concat(f.paymentName + " " + "$" + f.billAmount.formatMoney(2));
                             $("#billPanel").html(billArray.map(function (value) {
-                                return (value +'</br>');
+                                return (value + '</br>');
                             }).join(""));
+
+                            $("#expenseHide").removeClass("hide");
+                            $("#billBox").removeClass("hide");
                         }
 
                         else {
                             var gainTotal = 0;
                             event.title = f.paymentName + " " + "$" + f.gainAmount;
                             gainArray.push(f.gainAmount);
-                            $.each(gainArray, function() { gainTotal += parseFloat(this) || 0; });
+                            $.each(gainArray, function () { gainTotal += parseFloat(this) || 0; });
                             $("#incomePanel").html("$" + (gainTotal.formatMoney(2)));
+                            $("#incomeHide").removeClass("hide");
+
+                            $(".fc-event").html(gainTotal);
                         }
 
                         var gainlossTotal = 0;
@@ -119,14 +126,14 @@ $(document).ready(function () {
                         $.each(gainlossArray, function () { gainlossTotal += parseFloat(this) || 0; });
 
                         if (gainlossTotal > 0) {
-                            $(".lossHide").hide();
-                            $(".gainHide").show();
+                            $("#lossHide").addClass("hide");
+                            $("#gainHide").removeClass("hide");
                             $("#gainPanel").html("$" + (gainlossTotal.formatMoney(2)));
                         }
 
                         else if (gainlossTotal < 0) {
-                            $(".gainHide").hide();
-                            $(".lossHide").show();
+                            $("#gainHide").addClass("hide");
+                            $("#lossHide").removeClass("hide");
                             $("#lossPanel").html("$" + (gainlossTotal.formatMoney(2)));
                         }
 
@@ -136,6 +143,12 @@ $(document).ready(function () {
                 }
             };
             $.prompt(paymentState);
+        },
+
+        dayClick: function (event) {
+            var monthUpdate = 0;
+            $("<div id='monthUpdate'>" + monthUpdate + "</div>").appendTo(this);
+            monthUpdate++;
         }
     });
 });
