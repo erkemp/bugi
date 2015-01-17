@@ -118,7 +118,6 @@ h5 {
     padding-left: 70px;
 }
 
-#monthUpdate {
-    position: absolute;
-    color: green;
+.monthBalanceRow {
+    height: 1em;
 }

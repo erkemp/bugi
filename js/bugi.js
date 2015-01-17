@@ -143,12 +143,6 @@ $(document).ready(function () {
                 }
             };
             $.prompt(paymentState);
-        },
-
-        dayClick: function (event) {
-            var monthUpdate = 0;
-            $("<div id='monthUpdate'>" + monthUpdate + "</div>").appendTo(this);
-            monthUpdate++;
         }
     });
 });

@@ -4326,7 +4326,7 @@ RowRenderer.prototype = {
 
 		cellHtml = this.bookendCells(cellHtml, rowType, row); // apply intro and outro
 
-		return '<tr>' + cellHtml + '</tr>';
+		return '<tr>' + cellHtml + '</tr>' + "<tr class='monthBalanceRow'><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
 	},
 
 
