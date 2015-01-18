@@ -9,9 +9,13 @@
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
-$(document).ready(function () {
+$(document).ready(function() {
     var lossArray = [], gainArray = [], saveArray = [], billArray = [];
-
+    $("#month").submit(function () {
+        var monthBegin = document.getElementsByName("monthBegin");
+        $(".monthInsert").append(monthBegin);
+    });
+  
     $("#paymentBox .paymentEvent").each(function () {
         $(this).data("event", {
             title: $.trim($(this).text()),
@@ -35,7 +39,7 @@ $(document).ready(function () {
         selectable: true,
         selectHelper: true,
         droppable: true,
-        eventLimit: true,
+        eventLimit: 3,
         eventClick: function (event, element) {
             if ($(this).css("background-color") == "rgb(109, 206, 152)")
                 $(this).addClass("income");
@@ -66,7 +70,7 @@ $(document).ready(function () {
                    '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
-            paymentState = {
+            var paymentState = {
                 state0: {
                     title: 'Enter payment information:',
                     html: paymentForm,

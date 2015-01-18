@@ -689,7 +689,7 @@ a.fc-more:hover {
 
 .fc-basic-view td.fc-week-number span,
 .fc-basic-view td.fc-day-number {
-	padding-top: 2px;
+	padding-top: 0px;
 	padding-bottom: 2px;
 }
 

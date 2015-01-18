@@ -4311,24 +4311,23 @@ RowRenderer.prototype = {
 	// Also applies the "intro" and "outro" cells, which are specified by the subclass and views.
 	// `row` is an optional row number.
 	rowHtml: function(rowType, row) {
-		var view = this.view;
-		var renderCell = this.getHtmlRenderer('cell', rowType);
-		var cellHtml = '';
-		var col;
-		var date;
+	    var view = this.view;
+	    var renderCell = this.getHtmlRenderer('cell', rowType);
+	    var cellHtml = '';
+	    var col;
+	    var date;
 
-		row = row || 0;
+	    row = row || 0;
 
-		for (col = 0; col < view.colCnt; col++) {
-			date = view.cellToDate(row, col);
-			cellHtml += renderCell(row, col, date);
-		}
+	    for (col = 0; col < view.colCnt; col++) {
+	        date = view.cellToDate(row, col);
+	        cellHtml += renderCell(row, col, date);
+	    }
 
-		cellHtml = this.bookendCells(cellHtml, rowType, row); // apply intro and outro
+	    cellHtml = this.bookendCells(cellHtml, rowType, row);
 
-		return '<tr>' + cellHtml + '</tr>' + "<tr class='monthBalanceRow'><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+	    return '<tr>' + cellHtml + '</tr>';
 	},
-
 
 	// Applies the "intro" and "outro" HTML to the given cells.
 	// Intro means the leftmost cell when the calendar is LTR and the rightmost cell when RTL. Vice-versa for outro.
@@ -5590,7 +5589,7 @@ $.extend(DayGrid.prototype, {
 		return '' +
 			'<div class="' + classes.join(' ') + '">' +
 				'<div class="fc-bg">' +
-					'<table>' +
+					"<table>" +
 						this.rowHtml('day', row) + // leverages RowRenderer. calls dayCellHtml()
 					'</table>' +
 				'</div>' +
@@ -8421,20 +8420,20 @@ $.extend(BasicView.prototype, {
 
 	// Generates the HTML for the <td>s of the "number" row in the DayGrid's content skeleton.
 	// The number row will only exist if either day numbers or week numbers are turned on.
-	numberCellHtml: function(row, col, date) {
-		var classes;
+	numberCellHtml: function (row, col, date) {
+	    var classes;
 
-		if (!this.dayNumbersVisible) { // if there are week numbers but not day numbers
-			return '<td/>'; //  will create an empty space above events :(
-		}
+	    if (!this.dayNumbersVisible) { // if there are week numbers but not day numbers
+	        return '<td/>'; //  will create an empty space above events :(
+	    }
 
-		classes = this.dayGrid.getDayClasses(date);
-		classes.unshift('fc-day-number');
+	    classes = this.dayGrid.getDayClasses(date);
+	    classes.unshift('fc-day-number');
 
-		return '' +
-			'<td class="' + classes.join(' ') + '" data-date="' + date.format() + '">' +
-				date.date() +
-			'</td>';
+	    return '' +
+            '<td class="' + classes.join(' ') + '" data-date="' + date.format() + '">' +
+                date.date() + '<div class="monthInsert" style="auto; position: absolute; text-align:left;">Balance:</div>' +
+            '</td>';
 	},
 
 
