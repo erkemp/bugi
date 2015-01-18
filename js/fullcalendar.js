@@ -8432,7 +8432,7 @@ $.extend(BasicView.prototype, {
 
 	    return '' +
             '<td class="' + classes.join(' ') + '" data-date="' + date.format() + '">' +
-                date.date() + '<div class="monthInsert" style="auto; position: absolute; text-align:left;">Balance:</div>' +
+                date.date() + '<div style="height: 1px; width: 118px; background: #dddddd; top: 80px; position: absolute; text-align:left;">Balance:</div>' +
             '</td>';
 	},
 
