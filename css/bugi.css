@@ -112,6 +112,22 @@ h5 {
     display: none;
 }
 
+.monthInsert {
+     height: 1px;
+     width: 118px;
+     background: #dddddd;
+     top: 80px;
+     position: absolute;
+     text-align: left;
+}
+
+input[type="number"] {
+    width: 80px;
+    background: #f8f8f8;
+    border: solid 1px #dcdcdc;
+    margin-right: 5px;
+}
+
 #calendar {
     float: left;
     width: 900px;

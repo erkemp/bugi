@@ -11,10 +11,7 @@
 
 $(document).ready(function() {
     var lossArray = [], gainArray = [], saveArray = [], billArray = [];
-    $("#month").submit(function () {
-        var monthBegin = document.getElementsByName("monthBegin");
-        $(".monthInsert").append(monthBegin);
-    });
+
   
     $("#paymentBox .paymentEvent").each(function () {
         $(this).data("event", {
@@ -142,6 +139,11 @@ $(document).ready(function() {
                         }
 
                         $("#calendar").fullCalendar("updateEvent", event);
+
+                        var currentMonthInsert = $("[data-date*='2015-01-01'] > .monthInsert").text();
+                        var currentMonthCalc = parseInt(currentMonthInsert);
+                        $("[data-date*='2015-01-01'] > .monthInsert").html(currentMonthCalc + f.lossAmount);
+
                         $.prompt.close();
                     }
                 }
@@ -162,5 +164,11 @@ $(document).ready(function () {
 
     $(".loginSlide").click(function () {
         $("#loginPanel").slideToggle("slow");
+    });
+
+    $("button").click(function() {
+        var text = $("input").val();
+
+        $(".monthInsert").html(text);
     });
 });
