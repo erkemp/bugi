@@ -9,11 +9,85 @@
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 };
 
-$(document).ready(function() {
-    var lossArray = [], gainArray = [], saveArray = [], billArray = [];
+$(document).ready(function () {
+    var tutorialSubmit = function (e, v, m, f) {
+        if (v === 0)
+            $.prompt.close();
 
-  
-    $("#paymentBox .paymentEvent").each(function () {
+        if (v === -1) {
+            $.prompt.prevState();
+            return false;
+        }
+        else if (v === 1) {
+            $.prompt.nextState();
+            return false;
+        }
+    },
+tutorialStates = [
+	{
+	    title: 'Welcome',
+	    html: 'Would you like to see a quick tutorial for Bügi?',
+	    buttons: { No: 0, Yes: 1 },
+	    focus: 1,
+	    position: { container: 'h1', x: 200, y: 60, width: 300, arrow: 'tc' },
+	    submit: tutorialSubmit
+	},
+	{
+	    title: 'Start',
+	    html: 'To begin, enter your beginning month balance in this box.',
+	    buttons: { Prev: -1, Next: 1 },
+	    focus: 1,
+	    position: { container: '#start', x: 170, y: 0, width: 360, arrow: 'lt' },
+	    submit: tutorialSubmit
+	},
+	{
+	    title: "Start",
+	    html: "... and you'll see it appear over here!",
+	    buttons: { Prev: -1, Next: 1 },
+	    focus: 1,
+	    position: { container: '#calendar-info', x: -10, y: -145, width: 100, arrow: 'br' },
+	    submit: tutorialSubmit
+	},
+	{
+	    title: 'Choices',
+	    html: 'You can find many options for inputting your monthly expenses, bills, income, or savings.',
+	    buttons: { Prev: -1, Next: 1 },
+	    focus: 1,
+	    position: { container: '#choices', x: 170, y: 10, width: 400, arrow: 'lt' },
+	    submit: tutorialSubmit
+	},
+	{
+	    title: 'Choices',
+	    html: 'Drag and drop them to the calendar over here!',
+	    buttons: { Done: 2 },
+	    focus: 1,
+	    position: { container: '#calendar-info', x: 180, y: -130, width: 300, arrow: 'rt' },
+	    submit: tutorialSubmit
+	}
+];
+    $.prompt(tutorialStates);
+
+    $("#paymentForm").hide();
+    $("#register-panel").hide();
+    $("#login-panel").hide();
+
+    $(".register-slide").click(function () {
+        $("#register-panel").slideToggle("slow");
+    });
+
+    $(".login-slide").click(function () {
+        $("#login-panel").slideToggle("slow");
+    });
+
+    $("button").click(function () {
+        var monthBalance = $("input").val();
+        $("[data-date*='-01-'] > .month-insert").html(monthBalance);
+    });
+
+    var lossArray = [], gainArray = [], saveArray = [], billArray = [];
+    var paymentForm, loopDay;
+
+    $("#payment-box .payment-event").each(function () {
         $(this).data("event", {
             title: $.trim($(this).text()),
             stick: true,
@@ -30,14 +104,23 @@ $(document).ready(function() {
 
     $("#calendar").fullCalendar({
         header: {
-            left: "prev, next, title",
+            left: "title",
             right: "today"
         },
         selectable: true,
         selectHelper: true,
         droppable: true,
         eventLimit: 3,
-        eventClick: function (event, element) {
+        eventClick: function(event, jsEvent, view,  element) {
+            var clickedDate = $.nearest({
+                x: jsEvent.pageX, y: jsEvent.pageY
+            }, '.fc-day').attr('data-date');
+
+            var data = clickedDate.split('-');
+            var yyyy = parseInt(data[0]);
+            var mm = parseInt(data[1], 10);
+            var dd = parseInt(data[2], 10);
+ 
             if ($(this).css("background-color") == "rgb(109, 206, 152)")
                 $(this).addClass("income");
 
@@ -48,22 +131,22 @@ $(document).ready(function() {
                 $(this).addClass("bill");
 
             if ($(this).is(".income")) {
-                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                    paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="gainAmount">Amount: </label><input type="number" name="gainAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
             else if ($(this).is(".savings")) {
-                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                    paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="saveAmount">Amount: </label><input type="number" name="saveAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
             else if ($(this).is(".bill")) {
-                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                    paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                     '<div class="field"><label for="billAmount">Amount: </label><input type="number" name="billAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
             else {
-                var paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
+                   paymentForm = '<div class="field"><label for="paymentName">Name: </label><input type="text" name="paymentName" id="paymentName" value="" maxlength="14"/></div>' +
                    '<div class="field"><label for="lossAmount">Amount: </label><input type="number" name="lossAmount" id="paymentAmount" value="0" min="0" /></div>';
             }
 
@@ -80,8 +163,8 @@ $(document).ready(function() {
                             f.lossAmount *= -1;
                             lossArray.push(f.lossAmount);
                             $.each(lossArray, function () { lossTotal -= parseFloat(this) || 0; });
-                            $("#expensePanel").html("$" + (lossTotal.formatMoney(2)));
-                            $("#expenseHide").removeClass("hide");
+                            $("#expense-panel").html("$" + (lossTotal.formatMoney(2)));
+                            $("#expense-hide").removeClass("hide");
                         }
 
                         else if (f.saveAmount) {
@@ -89,8 +172,8 @@ $(document).ready(function() {
                             event.title = f.paymentName + " " + "$" + f.saveAmount;
                             saveArray.push(f.saveAmount);
                             $.each(saveArray, function () { saveTotal += parseFloat(this) || 0; });
-                            $("#savingsPanel").html("$" + (saveTotal.formatMoney(2)));
-                            $("#saveHide").removeClass("hide");
+                            $("#savings-panel").html("$" + (saveTotal.formatMoney(2)));
+                            $("#save-hide").removeClass("hide");
                         }
 
                         else if (f.billAmount) {
@@ -99,16 +182,16 @@ $(document).ready(function() {
                             f.billAmount *= -1;
                             lossArray.push(f.billAmount);
                             $.each(lossArray, function () { billTotal -= parseFloat(this) || 0; });
-                            $("#expensePanel").html("$" + (billTotal.formatMoney(2)));
+                            $("#expense-panel").html("$" + (billTotal.formatMoney(2)));
 
                             f.billAmount *= -1;
                             billArray = billArray.concat(f.paymentName + " " + "$" + f.billAmount.formatMoney(2));
-                            $("#billPanel").html(billArray.map(function (value) {
+                            $("#bill-panel").html(billArray.map(function (value) {
                                 return (value + '</br>');
                             }).join(""));
 
-                            $("#expenseHide").removeClass("hide");
-                            $("#billBox").removeClass("hide");
+                            $("#expense-hide").removeClass("hide");
+                            $("#bill-box").removeClass("hide");
                         }
 
                         else {
@@ -116,8 +199,8 @@ $(document).ready(function() {
                             event.title = f.paymentName + " " + "$" + f.gainAmount;
                             gainArray.push(f.gainAmount);
                             $.each(gainArray, function () { gainTotal += parseFloat(this) || 0; });
-                            $("#incomePanel").html("$" + (gainTotal.formatMoney(2)));
-                            $("#incomeHide").removeClass("hide");
+                            $("#income-panel").html("$" + (gainTotal.formatMoney(2)));
+                            $("#income-hide").removeClass("hide");
 
                             $(".fc-event").html(gainTotal);
                         }
@@ -127,22 +210,43 @@ $(document).ready(function() {
                         $.each(gainlossArray, function () { gainlossTotal += parseFloat(this) || 0; });
 
                         if (gainlossTotal > 0) {
-                            $("#lossHide").addClass("hide");
-                            $("#gainHide").removeClass("hide");
-                            $("#gainPanel").html("$" + (gainlossTotal.formatMoney(2)));
+                            $("#loss-hide").addClass("hide");
+                            $("#gain-hide").removeClass("hide");
+                            $("#gain-panel").html("$" + (gainlossTotal.formatMoney(2)));
                         }
 
                         else if (gainlossTotal < 0) {
-                            $("#gainHide").addClass("hide");
-                            $("#lossHide").removeClass("hide");
-                            $("#lossPanel").html("$" + (gainlossTotal.formatMoney(2)));
+                            $("#gain-hide").addClass("hide");
+                            $("#loss-hide").removeClass("hide");
+                            $("#loss-panel").html("$" + (gainlossTotal.formatMoney(2)));
                         }
 
                         $("#calendar").fullCalendar("updateEvent", event);
 
-                        var currentMonthInsert = $("[data-date*='2015-01-01'] > .monthInsert").text();
+                        var currentMonthInsert = $("[data-date*='" + clickedDate + "'] > .month-insert").text();
                         var currentMonthCalc = parseInt(currentMonthInsert);
-                        $("[data-date*='2015-01-01'] > .monthInsert").html(currentMonthCalc + f.lossAmount);
+
+                        var totalAmount = 0;
+                        if (f.lossAmount)
+                            totalAmount += parseInt(f.lossAmount);
+                        if (f.billAmount)
+                            totalAmount -= parseInt(f.billAmount);
+                        if (f.gainAmount)
+                            totalAmount += parseInt(f.gainAmount);
+                        if (f.saveAmount)
+                            totalAmount += parseInt(f.saveAmount);
+
+                        if (dd < 10) {
+                            for (loopDay = dd; loopDay < 10; loopDay++) {
+                                $("[data-date='" + yyyy + "-0" + mm + "-0" + loopDay + "'] > .month-insert").html(currentMonthCalc + totalAmount);
+                            }
+                            for (loopDay = dd; loopDay <= 31; loopDay++) {
+                                $("[data-date='" + yyyy + "-0" + mm + "-" + loopDay + "'] > .month-insert").html(currentMonthCalc + totalAmount);
+                            }
+                        } else {
+                            for (loopDay = dd; loopDay <= 31; loopDay++)
+                                $("[data-date='" + yyyy + "-0" + mm + "-" + loopDay + "'] > .month-insert").html(currentMonthCalc + totalAmount);
+                        }
 
                         $.prompt.close();
                     }
@@ -155,20 +259,5 @@ $(document).ready(function() {
 
 // Register and Login Buttons
 $(document).ready(function () {
-    $("#paymentForm").hide();
-    $("#registerPanel").hide();
-    $("#loginPanel").hide();
-    $(".registerSlide").click(function () {
-        $("#registerPanel").slideToggle("slow");
-    });
-
-    $(".loginSlide").click(function () {
-        $("#loginPanel").slideToggle("slow");
-    });
-
-    $("button").click(function() {
-        var text = $("input").val();
-
-        $(".monthInsert").html(text);
-    });
+    
 });

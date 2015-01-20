@@ -39,16 +39,16 @@ h5 {
     letter-spacing: 1px;
 }
 
-#paymentBox {
+#payment-box {
     float: left;
 }
 
-#paymentBox .paymentEvent {
+#payment-box .payment-event {
     margin: 10px 0;
     cursor: pointer;
 }
 
-.paymentEvent {
+.payment-event {
     position: relative;
     display: block;
     font-size: .85em;
@@ -59,18 +59,18 @@ h5 {
     font-weight: normal;
 }
 
-.paymentEvent,
-.paymentEvent:hover,
-.ui-widget .paymentEvent {
+.payment-event,
+.payment-event:hover,
+.ui-widget .payment-event {
     color: #fff;
     text-decoration: none;
 }
 
-.paymentEvent[href] {
+.payment-event[href] {
     cursor: pointer;
 }
 
-#billBox {
+#bill-box {
     float: right;
 }
 
@@ -112,16 +112,17 @@ h5 {
     display: none;
 }
 
-.monthInsert {
-     height: 1px;
-     width: 118px;
-     background: #dddddd;
-     top: 80px;
-     position: absolute;
-     text-align: left;
+.month-insert {
+    height: 1px;
+    width: 118px;
+    background: #dddddd;
+    top: 80px;
+    position: absolute;
+    text-align: left;
+    color: #006400;
 }
 
-input[type="number"] {
+.month-input {
     width: 80px;
     background: #f8f8f8;
     border: solid 1px #dcdcdc;
